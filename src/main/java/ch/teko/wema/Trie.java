@@ -212,7 +212,7 @@ public class Trie{
         Trie trie = new Trie();
 
         // Words to insert into the Trie
-        String[] words = {"hello", "hell", "world", "hi", "wonder", "wonderful", "winter", "Wizard", "helloween"};
+        String[] words = {"hello", "hell", "world", "hi", "wonder", "wonderful", "winter", "Wizard", "halloween"};
 
         // Insert words into the trie
         for (String word : words) {
