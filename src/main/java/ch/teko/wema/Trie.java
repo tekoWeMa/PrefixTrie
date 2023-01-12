@@ -23,23 +23,22 @@ public class Trie{
     private static class TrieNode {
         private final HashMap<Character, TrieNode> children;
         private boolean isEndOfWord;
-
+        /**
+         * TrieNode constructor
+         *
+         * Initializes the children HashMap and sets the isEndOfWord field to false.
+         */
         public TrieNode() {
             children = new HashMap<>();
             isEndOfWord = false;
         }
     }
     /**
-     * TrieNode constructor
-     *
-     * Initializes the children HashMap and sets the isEndOfWord field to false.
-     */
-    private final TrieNode root;
-    /**
      * Trie constructor
      *
      * Initializes the root TrieNode.
      */
+    private final TrieNode root;
     public Trie() {
         root = new TrieNode();
     }
@@ -163,12 +162,15 @@ public class Trie{
      *
      * @param node The current TrieNode.
      * @param prefix The current prefix.
-     * @param isTail Whether the current node is the last child of its parent.
+     * @param IsLeaf Whether the current node is the last child of its parent. (Leaf of a branch of a Tree)
+     *
+     * Notes: In the Print line, the statement can be read as: "If IsLeaf is true, return " ", otherwise return "│ "".
+     * This is to ensure to connect to other Branches visually.
      */
 
-    private void print(TrieNode node, String prefix, boolean isTail) {
+    private void print(TrieNode node, String prefix, boolean IsLeaf) {
         // create the label for the current node
-        String nodeLabel = node.isEndOfWord && isTail ? "END" : "";
+        String nodeLabel = node.isEndOfWord && IsLeaf ? "END" : "";
 
         // if the current node is the end of a word, print the prefix and the label
         if (node.isEndOfWord) {
@@ -184,10 +186,10 @@ public class Trie{
             char ch = children.get(i);
 
             // print the prefix and the character, followed by an arrow
-            System.out.println(prefix + (isTail ? "    " : "│   ") + ch + " ->");
+            System.out.println(prefix + (IsLeaf ? "    " : "│   ") + ch + " ->");
 
-            // recursive call to print the child node with the updated prefix and the child node not being the tail
-            print(node.children.get(ch), prefix + (isTail ? "    " : "│   "), false);
+            // recursive call to print the child node with the updated prefix and the child node not being the leaf
+            print(node.children.get(ch), prefix + (IsLeaf ? "    " : "│   "), false);
         }
 
         // if there are any children, print the last child
@@ -196,10 +198,10 @@ public class Trie{
             char ch = children.get(children.size() - 1);
 
             // print the prefix and the character, followed by an arrow
-            System.out.println(prefix + (isTail ? "    " : "│   ") + ch + " ->");
+            System.out.println(prefix + (IsLeaf ? "    " : "│   ") + ch + " ->");
 
-            // recursive call to print the child node with the updated prefix and the child node being the tail
-            print(node.children.get(ch), prefix + (isTail ? "    " : "│   "), true);
+            // recursive call to print the child node with the updated prefix and the child node being the leaf
+            print(node.children.get(ch), prefix + (IsLeaf ? "    " : "│   "), true);
         }
     }
 
@@ -209,12 +211,19 @@ public class Trie{
     public static void main(String[] args) {
         Trie trie = new Trie();
 
-        String[] words = {"hello", "hell", "world", "hi", "wonder"};
+        // Words to insert into the Trie
+        String[] words = {"hello", "hell", "world", "hi", "wonder", "wonderful", "winter", "Wizard", "helloween"};
 
         // Insert words into the trie
         for (String word : words) {
             trie.insert(word);
         }
+
+        // Returns if the Word is in the Trie
+        System.out.println(trie.search("hello"));
+        // Returns if a Word in the Trie starts with the characters provided
+        System.out.println(trie.startsWith("wo"));
+
 
         // Print out the trie
         trie.print();
