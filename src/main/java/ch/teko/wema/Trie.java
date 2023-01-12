@@ -150,7 +150,7 @@ public class Trie{
      * Prints the trie in a tree-like structure.
      */
     public void print() {
-        // start recursive printing at the root node with an empty prefix and the root node being the tail
+        // start recursive printing at the root node with an empty prefix and the root node being the leaf
         print(root, "", true);
     }
 
