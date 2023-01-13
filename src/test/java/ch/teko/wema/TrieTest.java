@@ -52,5 +52,17 @@ import static org.junit.jupiter.api.Assertions.*;
         assertFalse(trie.startsWith("NedVorhande"));
 
     }
+     @Test
+     public void test_main() {
+
+         // Test searching for words that do exist in the trie
+         assertTrue(trie.search("hello"));
+         // Test searching for words that do not exist in the trie
+         assertFalse(trie.search("foo"));
+
+
+         trie.print();
+
+     }
 
 }
