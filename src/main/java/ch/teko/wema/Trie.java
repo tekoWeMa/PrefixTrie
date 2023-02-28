@@ -15,6 +15,10 @@
  */
 package ch.teko.wema;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -221,12 +225,25 @@ public class Trie{
         Trie trie = new Trie();
 
         // Words to insert into the Trie
-        String[] words = {"hello", "hello", "hell", "world", "hi", "wonder", "wonder", "wonderful", "winter", "Wizard", "halloween"};
+        // String[] words = {"hello", "hell", "world", "hi", "wonder", "wonderful", "winter", "Wizard", "halloween"};
+        String fileName = "D:\\Notes\\PrefixTrie\\src\\main\\resources\\resources\\kjv.txt";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            StreamTokenizer tokenizer = new StreamTokenizer(br);
+
+            while (tokenizer.nextToken() != StreamTokenizer.TT_EOF) {
+                if (tokenizer.ttype == StreamTokenizer.TT_WORD) {
+                    trie.insert(tokenizer.sval);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // Insert words into the trie
-        for (String word : words) {
-            trie.insert(word);
-        }
+        //for (String word : words) {
+        //    trie.insert(word);
+        //}
 
         // Returns if the Word is in the Trie
         System.out.println(trie.search("hello"));
