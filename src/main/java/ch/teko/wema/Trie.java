@@ -23,6 +23,7 @@ public class Trie{
     private static class TrieNode {
         private final HashMap<Character, TrieNode> children;
         private boolean isEndOfWord;
+        private int count; // added counter variable
         /**
          * TrieNode constructor
          *
@@ -31,6 +32,7 @@ public class Trie{
         public TrieNode() {
             children = new HashMap<>();
             isEndOfWord = false;
+            count = 0; // initialize counter to 0
         }
     }
     /**
@@ -60,7 +62,13 @@ public class Trie{
             }
             current = node;
         }
-        current.isEndOfWord = true;
+
+        if (current.isEndOfWord) { // if the word is already present in the Trie, increment its count
+            current.count++;
+        } else {
+            current.isEndOfWord = true;
+            current.count = 1;
+        }
     }
 
     /**
@@ -170,7 +178,8 @@ public class Trie{
 
     private void print(TrieNode node, String prefix, boolean IsLeaf) {
         // create the label for the current node
-        String nodeLabel = node.isEndOfWord && IsLeaf ? "END" : "";
+        // modified label to print the count of the word in the Node
+        String nodeLabel = node.isEndOfWord && IsLeaf ? "END (" + node.count + ")" : ""; // modified nodeLabel
 
         // if the current node is the end of a word, print the prefix and the label
         if (node.isEndOfWord) {
@@ -212,7 +221,7 @@ public class Trie{
         Trie trie = new Trie();
 
         // Words to insert into the Trie
-        String[] words = {"hello", "hell", "world", "hi", "wonder", "wonderful", "winter", "Wizard", "halloween"};
+        String[] words = {"hello", "hello", "hell", "world", "hi", "wonder", "wonder", "wonderful", "winter", "Wizard", "halloween"};
 
         // Insert words into the trie
         for (String word : words) {
