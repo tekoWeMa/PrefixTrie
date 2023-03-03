@@ -95,6 +95,20 @@ public class Trie{
         return current.isEndOfWord;
     }
 
+    public TrieNode get(String word) {
+        TrieNode current = root;
+
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            TrieNode node = current.children.get(ch);
+            if (node == null) {
+                return null;
+            }
+            current = node;
+        }
+        return current.isEndOfWord ? current : null;
+    }
+
     /**
 
      Returns whether the trie contains any word with the given prefix.
@@ -226,7 +240,7 @@ public class Trie{
 
         // Words to insert into the Trie
         // String[] words = {"hello", "hell", "world", "hi", "wonder", "wonderful", "winter", "Wizard", "halloween"};
-        String fileName = "D:\\Notes\\PrefixTrie\\src\\main\\resources\\resources\\kjv.txt";
+        String fileName = "C:\\Dev\\PrefixTrie\\src\\main\\resources\\resources\\kjv.txt";
 
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             StreamTokenizer tokenizer = new StreamTokenizer(br);
@@ -247,12 +261,16 @@ public class Trie{
 
         // Returns if the Word is in the Trie
         System.out.println(trie.search("hello"));
+
+
         // Returns if a Word in the Trie starts with the characters provided
         System.out.println(trie.startsWith("wo"));
 
-
         // Print out the trie
         trie.print();
+        //TODO: in string verfassen
+        //TODO: input into lowercase
+        System.out.println(trie.get("lord").count);
     }
 }
 
