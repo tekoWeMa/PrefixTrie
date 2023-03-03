@@ -247,7 +247,7 @@ public class Trie{
 
             while (tokenizer.nextToken() != StreamTokenizer.TT_EOF) {
                 if (tokenizer.ttype == StreamTokenizer.TT_WORD) {
-                    trie.insert(tokenizer.sval);
+                    trie.insert(tokenizer.sval.toLowerCase());
                 }
             }
         } catch (IOException e) {
@@ -268,9 +268,9 @@ public class Trie{
 
         // Print out the trie
         trie.print();
-        //TODO: in string verfassen
-        //TODO: input into lowercase
-        System.out.println(trie.get("lord").count);
+
+        System.out.println("The Wordcount of god is:" +trie.get("god").count);
+        System.out.println("The Wordcount of lord is:" +trie.get("lord").count);
     }
 }
 
