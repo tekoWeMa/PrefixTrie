@@ -95,6 +95,16 @@ public class Trie{
         return current.isEndOfWord;
     }
 
+    /**
+
+     Returns the TrieNode corresponding to the specified word, if present in the Trie.
+
+     If the word is not present in the Trie, returns null.
+
+     @param word the word to search for in the Trie
+
+     @return the TrieNode corresponding to the specified word, or null if the word is not present in the Trie
+     */
     public TrieNode get(String word) {
         TrieNode current = root;
 
@@ -232,9 +242,20 @@ public class Trie{
         }
     }
 
+    /**
 
+     The main method of the PrefixTrie class that creates a new instance of the Trie and
 
+     inserts words into it. The words are either read from a text file or are provided in an array.
 
+     The Trie class supports basic functionality such as searching, checking if a word starts with
+
+     a given prefix and printing the Trie. The main method also prints the count of occurrences
+
+     of specific words in the Trie.
+
+     @param args The command line arguments passed to the program.
+     */
     public static void main(String[] args) {
         Trie trie = new Trie();
 
