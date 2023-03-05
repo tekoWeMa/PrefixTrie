@@ -248,8 +248,22 @@ public class Trie{
             }
             current = node;
         }
-        // if the hex value is found in the trie, print out the color name
-        return current.colorName;
+        if (current != null) {
+            // if the hex value is found in the trie, print out the color name
+            return current.colorName;
+        }
+        else return null;
+
+    }
+
+    public String getDecimal(String hexValue){
+        int r, g, b;
+        r = Integer.valueOf( hexValue.substring( 0, 2 ), 16 );
+        g = Integer.valueOf( hexValue.substring( 2, 4 ), 16 );
+        b = Integer.valueOf( hexValue.substring( 4, 6 ), 16 ) ;
+
+        return "R: " + r + ", G: " + g + ", B: " + b;
+
     }
 
 
@@ -278,30 +292,14 @@ public class Trie{
         String hexValue = scanner.nextLine();
         String colorName = trie.searchHex(hexValue);
         if (colorName != null) {
-            System.out.println("The color name for the hex value " + hexValue + " is " + colorName);
+            System.out.println("The color name for the hex value " + hexValue + " is " + colorName + " and has the RGB Values of:" + trie.getDecimal(hexValue));
         } else {
-            System.out.println("Color not found for hex value " + hexValue);
+            System.out.println("Color not found for hex value " + hexValue + " has the RGB Values of:" + trie.getDecimal(hexValue));
         }
-
-
-        // Insert words into the trie
-        //for (String word : words) {
-        //    trie.insert(word);
-        //}
-
-        // Returns if the Word is in the Trie
-        //System.out.println(trie.search("hello"));
-
-
-        // Returns if a Word in the Trie starts with the characters provided
-        //System.out.println(trie.startsWith("wo"));
 
         // Print out the trie
         //trie.print();
 
-        //System.out.println("The Wordcount of god is:" +trie.get("god").count);
-        //System.out.println("The Wordcount of lord is:" +trie.get("lord").count);
-        //TODO: add parsing of csv file
     }
 }
 
