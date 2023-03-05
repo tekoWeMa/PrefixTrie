@@ -54,14 +54,14 @@ public class Trie{
     /**
      * Inserts a word into the trie.
      *
-     * @param word      The word to insert into the trie.
+     * @param hexValue      The word to insert into the trie.
      * @param colorName The Name of the color.
      */
-    public void insert(String word, String colorName) {
+    public void insert(String hexValue, String colorName) {
         TrieNode current = root;
 
-        for (int i = 0; i < word.length(); i++) {
-            char ch = word.charAt(i);
+        for (int i = 0; i < hexValue.length(); i++) {
+            char ch = hexValue.charAt(i);
             TrieNode node = current.children.get(ch);
             if (node == null) {
                 node = new TrieNode();
@@ -201,16 +201,16 @@ public class Trie{
      *
      * @param node The current TrieNode.
      * @param prefix The current prefix.
-     * @param IsLeaf Whether the current node is the last child of its parent. (Leaf of a branch of a Tree)
+     * @param isLeaf Whether the current node is the last child of its parent. (Leaf of a branch of a Tree)
      *
-     * Notes: In the Print line, the statement can be read as: "If IsLeaf is true, return " ", otherwise return "│ "".
+     * Notes: In the Print line, the statement can be read as: "If isLeaf is true, return " ", otherwise return "│ "".
      * This is to ensure to connect to other Branches visually.
      */
 
-    public void print(TrieNode node, String prefix, boolean IsLeaf) {
+    public void print(TrieNode node, String prefix, boolean isLeaf) {
         // create the label for the current node
         // modified label to print the count of the word in the Node
-        String nodeLabel = node.isEndOfWord && IsLeaf ? "END "+ node.colorName + "(" + node.count + ")" : ""; // modified nodeLabel
+        String nodeLabel = node.isEndOfWord && isLeaf ? "END "+ node.colorName + "(" + node.count + ")" : ""; // modified nodeLabel
 
         // if the current node is the end of a word, print the prefix and the label
         if (node.isEndOfWord) {
@@ -226,10 +226,10 @@ public class Trie{
             char ch = children.get(i);
 
             // print the prefix and the character, followed by an arrow
-            System.out.println(prefix + (IsLeaf ? "    " : "│   ") + ch + " ->");
+            System.out.println(prefix + (isLeaf ? "    " : "│   ") + ch + " ->");
 
             // recursive call to print the child node with the updated prefix and the child node not being the leaf
-            print(node.children.get(ch), prefix + (IsLeaf ? "    " : "│   "), false);
+            print(node.children.get(ch), prefix + (isLeaf ? "    " : "│   "), false);
         }
 
         // if there are any children, print the last child
@@ -238,10 +238,10 @@ public class Trie{
             char ch = children.get(children.size() - 1);
 
             // print the prefix and the character, followed by an arrow
-            System.out.println(prefix + (IsLeaf ? "    " : "│   ") + ch + " ->");
+            System.out.println(prefix + (isLeaf ? "    " : "│   ") + ch + " ->");
 
             // recursive call to print the child node with the updated prefix and the child node being the leaf
-            print(node.children.get(ch), prefix + (IsLeaf ? "    " : "│   "), true);
+            print(node.children.get(ch), prefix + (isLeaf ? "    " : "│   "), true);
         }
     }
     /**
@@ -258,16 +258,12 @@ public class Trie{
             char ch = hexValue.charAt(i);
             TrieNode node = current.children.get(ch);
             if (node == null) {
-                // if the current character is not in the trie, print an error message and return
-                System.out.println("Color not found for hex value " + hexValue);
+              return null;
             }
             current = node;
         }
-        if (current != null) {
-            // if the hex value is found in the trie, print out the color name
-            return current.colorName;
-        }
-        else return null;
+        // if the hex value is found in the trie, print out the color name
+        return current.colorName;
 
     }
 
@@ -310,7 +306,7 @@ public class Trie{
         //String fileName = "D:\\Notes\\PrefixTrie\\src\\main\\resources\\resources\\ral_standard.csv";
 
         BufferedReader reader = new BufferedReader(new FileReader("D:\\Notes\\PrefixTrie\\src\\main\\resources\\resources\\ral_standard.csv"));
-        String line = reader.readLine(); // skip the header line
+        String line; // skip the header line
         while ((line = reader.readLine()) != null) {
             String[] parts = line.split(",");
             String hexValue = parts[2].substring(1); // remove '#' from hex value
@@ -330,7 +326,7 @@ public class Trie{
         }
 
         // Print out the trie
-        trie.print();
+        // trie.print();
 
     }
 }
