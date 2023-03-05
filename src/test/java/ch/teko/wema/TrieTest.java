@@ -1,6 +1,5 @@
 package ch.teko.wema;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
         // Insert words into the trie
         for (String word : words) {
-            trie.insert(word);
+            String colorName = null;
+            trie.insert(word, colorName);
         }
 
 

@@ -18,15 +18,16 @@ package ch.teko.wema;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 public class Trie{
     private static class TrieNode {
         private final HashMap<Character, TrieNode> children;
         private boolean isEndOfWord;
+        public String colorName;
         private int count; // added counter variable
         /**
          * TrieNode constructor
@@ -37,6 +38,7 @@ public class Trie{
             children = new HashMap<>();
             isEndOfWord = false;
             count = 0; // initialize counter to 0
+
         }
     }
     /**
@@ -52,9 +54,10 @@ public class Trie{
     /**
      * Inserts a word into the trie.
      *
-     * @param word The word to insert into the trie.
+     * @param word      The word to insert into the trie.
+     * @param colorName
      */
-    public void insert(String word) {
+    public void insert(String word, String colorName) {
         TrieNode current = root;
 
         for (int i = 0; i < word.length(); i++) {
@@ -72,6 +75,7 @@ public class Trie{
         } else {
             current.isEndOfWord = true;
             current.count = 1;
+            current.colorName = colorName;
         }
     }
 
@@ -194,10 +198,10 @@ public class Trie{
      * This is to ensure to connect to other Branches visually.
      */
 
-    private void print(TrieNode node, String prefix, boolean IsLeaf) {
+    public void print(TrieNode node, String prefix, boolean IsLeaf) {
         // create the label for the current node
         // modified label to print the count of the word in the Node
-        String nodeLabel = node.isEndOfWord && IsLeaf ? "END (" + node.count + ")" : ""; // modified nodeLabel
+        String nodeLabel = node.isEndOfWord && IsLeaf ? "END "+ node.colorName + "(" + node.count + ")" : ""; // modified nodeLabel
 
         // if the current node is the end of a word, print the prefix and the label
         if (node.isEndOfWord) {
@@ -232,27 +236,53 @@ public class Trie{
         }
     }
 
+    public String searchHex(String hexValue) {
+        TrieNode current = root;
+        // traverse the trie for each character in the hex value
+        for (int i = 0; i < hexValue.length(); i++) {
+            char ch = hexValue.charAt(i);
+            TrieNode node = current.children.get(ch);
+            if (node == null) {
+                // if the current character is not in the trie, print an error message and return
+                System.out.println("Color not found for hex value " + hexValue);
+            }
+            current = node;
+        }
+        // if the hex value is found in the trie, print out the color name
+        return current.colorName;
+    }
 
 
 
-    public static void main(String[] args) {
+
+
+    public static void main(String[] args) throws IOException {
         Trie trie = new Trie();
 
         // Words to insert into the Trie
         // String[] words = {"hello", "hell", "world", "hi", "wonder", "wonderful", "winter", "Wizard", "halloween"};
-        String fileName = "C:\\Dev\\PrefixTrie\\src\\main\\resources\\resources\\kjv.txt";
+        //String fileName = "D:\\Notes\\PrefixTrie\\src\\main\\resources\\resources\\ral_standard.csv";
 
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            StreamTokenizer tokenizer = new StreamTokenizer(br);
-
-            while (tokenizer.nextToken() != StreamTokenizer.TT_EOF) {
-                if (tokenizer.ttype == StreamTokenizer.TT_WORD) {
-                    trie.insert(tokenizer.sval.toLowerCase());
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        BufferedReader reader = new BufferedReader(new FileReader("D:\\Notes\\PrefixTrie\\src\\main\\resources\\resources\\ral_standard.csv"));
+        String line = reader.readLine(); // skip the header line
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.split(",");
+            String hexValue = parts[2].substring(1); // remove '#' from hex value
+            String colorName = parts[3];
+            trie.insert(hexValue, colorName);
         }
+        reader.close();
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a hex value: ");
+        String hexValue = scanner.nextLine();
+        String colorName = trie.searchHex(hexValue);
+        if (colorName != null) {
+            System.out.println("The color name for the hex value " + hexValue + " is " + colorName);
+        } else {
+            System.out.println("Color not found for hex value " + hexValue);
+        }
+
 
         // Insert words into the trie
         //for (String word : words) {
@@ -260,17 +290,18 @@ public class Trie{
         //}
 
         // Returns if the Word is in the Trie
-        System.out.println(trie.search("hello"));
+        //System.out.println(trie.search("hello"));
 
 
         // Returns if a Word in the Trie starts with the characters provided
-        System.out.println(trie.startsWith("wo"));
+        //System.out.println(trie.startsWith("wo"));
 
         // Print out the trie
-        trie.print();
+        //trie.print();
 
-        System.out.println("The Wordcount of god is:" +trie.get("god").count);
-        System.out.println("The Wordcount of lord is:" +trie.get("lord").count);
+        //System.out.println("The Wordcount of god is:" +trie.get("god").count);
+        //System.out.println("The Wordcount of lord is:" +trie.get("lord").count);
+        //TODO: add parsing of csv file
     }
 }
 
