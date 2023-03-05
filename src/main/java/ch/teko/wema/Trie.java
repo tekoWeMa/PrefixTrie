@@ -301,9 +301,6 @@ public class Trie{
     public static void main(String[] args) throws IOException {
         Trie trie = new Trie();
 
-        // Words to insert into the Trie
-        // String[] words = {"hello", "hell", "world", "hi", "wonder", "wonderful", "winter", "Wizard", "halloween"};
-        //String fileName = "D:\\Notes\\PrefixTrie\\src\\main\\resources\\resources\\ral_standard.csv";
 
         BufferedReader reader = new BufferedReader(new FileReader("D:\\Notes\\PrefixTrie\\src\\main\\resources\\resources\\ral_standard.csv"));
         String line; // skip the header line
@@ -318,11 +315,15 @@ public class Trie{
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter a hex value: ");
         String hexValue = scanner.nextLine();
-        String colorName = trie.searchHex(hexValue);
-        if (colorName != null) {
-            System.out.println("The color name for the hex value " + hexValue + " is " + colorName + " and has the RGB Values of:" + trie.getDecimal(hexValue));
-        } else {
-            System.out.println("Color not found for hex value " + hexValue + " has the RGB Values of:" + trie.getDecimal(hexValue));
+        try {
+            String colorName = trie.searchHex(hexValue);
+            if (colorName != null) {
+                System.out.println("The color name for the hex value " + hexValue + " is " + colorName + " and has the RGB Values of:" + trie.getDecimal(hexValue));
+            } else {
+                System.out.println("Color not found for hex value " + hexValue + " has the RGB Values of:" + trie.getDecimal(hexValue));
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid hex value entered: " + hexValue);
         }
 
         // Print out the trie
