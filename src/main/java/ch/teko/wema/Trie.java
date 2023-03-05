@@ -55,7 +55,7 @@ public class Trie{
      * Inserts a word into the trie.
      *
      * @param word      The word to insert into the trie.
-     * @param colorName
+     * @param colorName The Name of the color.
      */
     public void insert(String word, String colorName) {
         TrieNode current = root;
@@ -98,7 +98,16 @@ public class Trie{
         }
         return current.isEndOfWord;
     }
+    /**
 
+     Returns the TrieNode corresponding to the specified word, if present in the Trie.
+
+     If the word is not present in the Trie, returns null.
+
+     @param word the word to search for in the Trie
+
+     @return the TrieNode corresponding to the specified word, or null if the word is not present in the Trie
+     */
     public TrieNode get(String word) {
         TrieNode current = root;
 
@@ -235,7 +244,13 @@ public class Trie{
             print(node.children.get(ch), prefix + (IsLeaf ? "    " : "│   "), true);
         }
     }
+    /**
 
+     Searches for a hex value in the trie data structure.
+     Each character in the hex value is traversed through the trie.
+     @param hexValue the hex value to search for
+     @return the color name associated with the hex value, or null if not found
+     */
     public String searchHex(String hexValue) {
         TrieNode current = root;
         // traverse the trie for each character in the hex value
@@ -256,6 +271,15 @@ public class Trie{
 
     }
 
+    /**
+
+     Converts a hex value to its corresponding RGB values.
+
+     @param hexValue the hex value to convert
+
+     @return a string containing the RGB values in the format "R: <r>, G: <g>, B: <b>"
+     */
+
     public String getDecimal(String hexValue){
         int r, g, b;
         r = Integer.valueOf( hexValue.substring( 0, 2 ), 16 );
@@ -265,10 +289,18 @@ public class Trie{
         return "R: " + r + ", G: " + g + ", B: " + b;
 
     }
+    /**
 
+     The main method reads in a csv file containing hex values and color names, inserts them into the trie data structure,
 
+     and prompts the user to enter a hex value to search for in the trie.
 
+     The corresponding color name and RGB values are printed if found.
 
+     @param args the command line arguments
+
+     @throws IOException if an I/O error occurs
+     */
 
     public static void main(String[] args) throws IOException {
         Trie trie = new Trie();
@@ -298,7 +330,7 @@ public class Trie{
         }
 
         // Print out the trie
-        //trie.print();
+        trie.print();
 
     }
 }
