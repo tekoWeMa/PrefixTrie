@@ -287,11 +287,14 @@ public class Trie{
     }
     /**
 
-     The main method reads in a csv file containing hex values and color names, inserts them into the trie data structure,
+     The main method reads in a csv file containing hex values and color names, inserts them into the trie data structure
 
-     and prompts the user to enter a hex value to search for in the trie.
 
-     The corresponding color name and RGB values are printed if found.
+     Prompts the user to enter a language, reads a hexadecimal color value from the user, and retrieves the
+
+     corresponding color name from the prefix trie data structure with the
+
+     corresponding RGB values printed if found.
 
      @param args the command line arguments
 
@@ -302,19 +305,56 @@ public class Trie{
         Trie trie = new Trie();
 
 
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a language: ");
+        String language = scanner.nextLine();
+
+// switch case statement to handle the language input and set the langIndex accordingly
+        int langIndex;
+        switch (language) {
+            case "German":
+                langIndex = 3;
+                break;
+            case "English":
+                langIndex = 4;
+                break;
+            case "French":
+                langIndex = 5;
+                break;
+            case "Spanish":
+                langIndex = 6;
+                break;
+            case "Italian":
+                langIndex = 7;
+                break;
+            case "Nederlands":
+                langIndex = 8;
+                break;
+            default:
+                System.out.println("Invalid language input");
+                return; // exit the program if an invalid language is entered
+        }
+
         BufferedReader reader = new BufferedReader(new FileReader("D:\\Notes\\PrefixTrie\\src\\main\\resources\\resources\\ral_standard.csv"));
-        String line; // skip the header line
+        String line = reader.readLine(); // read the header line
+        String[] headers = line.split(",");
+        if (langIndex < 0 || langIndex >= headers.length) {
+            System.out.println("Invalid language index: " + langIndex);
+            return; // exit the program if the language index is out of range
+        }
+
         while ((line = reader.readLine()) != null) {
             String[] parts = line.split(",");
             String hexValue = parts[2].substring(1); // remove '#' from hex value
-            String colorName = parts[3];
+            String colorName = parts[langIndex];
             trie.insert(hexValue, colorName);
         }
         reader.close();
 
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner2 = new Scanner(System.in);
         System.out.print("Enter a hex value: ");
-        String hexValue = scanner.nextLine();
+        String hexValue = scanner2.nextLine();
         try {
             String colorName = trie.searchHex(hexValue);
             if (colorName != null) {
@@ -325,9 +365,13 @@ public class Trie{
         } catch (NumberFormatException e) {
             System.out.println("Invalid hex value entered: " + hexValue);
         }
+        trie.print();
 
-        // Print out the trie
-        // trie.print();
+/**Loops through the first line
+ * If there is a match, the program saves the index of that column header
+ * (i.e., the language column) and then proceeds to read the remaining lines of the CSV file,
+ * splitting each line into its individual columns and inserting the relevant data into the prefix trie.
+ */
 
     }
 }
