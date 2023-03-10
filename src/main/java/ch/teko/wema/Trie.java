@@ -275,17 +275,6 @@ public class Trie{
             e.printStackTrace();
         }
 
-        // Insert words into the trie
-        //for (String word : words) {
-        //    trie.insert(word);
-        //}
-
-        // Returns if the Word is in the Trie
-        //System.out.println(trie.search("hello"));
-
-
-        // Returns if a Word in the Trie starts with the characters provided
-        //System.out.println(trie.startsWith("wo"));
 
         // Print out the trie
         trie.print();
