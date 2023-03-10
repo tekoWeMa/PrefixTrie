@@ -336,7 +336,7 @@ public class Trie{
                 return; // exit the program if an invalid language is entered
         }
 
-        BufferedReader reader = new BufferedReader(new FileReader("D:\\Notes\\PrefixTrie\\src\\main\\resources\\resources\\ral_standard.csv"));
+        BufferedReader reader = new BufferedReader(new FileReader("C:\\Dev\\PrefixTrie\\src\\main\\resources\\resources\\ral_standard.csv"));
         String line = reader.readLine(); // read the header line
         String[] headers = line.split(",");
         if (langIndex < 0 || langIndex >= headers.length) {
