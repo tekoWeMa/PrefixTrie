@@ -281,11 +281,11 @@ public class Trie{
         //}
 
         // Returns if the Word is in the Trie
-        System.out.println(trie.search("hello"));
+        //System.out.println(trie.search("hello"));
 
 
         // Returns if a Word in the Trie starts with the characters provided
-        System.out.println(trie.startsWith("wo"));
+        //System.out.println(trie.startsWith("wo"));
 
         // Print out the trie
         trie.print();
